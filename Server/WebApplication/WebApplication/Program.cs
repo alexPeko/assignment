@@ -3,7 +3,18 @@ using WebApplication.ApiKeyValidation;
 using WebApplication.Middlewares;
 using WebApplication.Models;
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
+
 var builder = Microsoft.AspNetCore.Builder.WebApplication.CreateBuilder(args);
+
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy(name: MyAllowSpecificOrigins,
+                      policy =>
+                      {
+                          policy.WithOrigins("http://localhost:4200");
+                      });
+});
 
 // Add services to the container.
 
@@ -24,6 +35,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors(MyAllowSpecificOrigins);
 app.UseMiddleware<ApiKeyMiddleware>();
 
 app.UseHttpsRedirection();

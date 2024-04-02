@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
+﻿using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApplication.Models;
@@ -44,7 +40,7 @@ namespace WebApplication.Controllers
         // PUT: api/Entities/5
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPut("{id}")]
-        public async Task<IActionResult> PutEntity(long id, Entity entity)
+        public async Task<IActionResult> PutEntity(Guid id, Entity entity)
         {
             if (id != entity.Id)
             {
@@ -69,7 +65,7 @@ namespace WebApplication.Controllers
                 }
             }
 
-            return NoContent();
+            return Ok();
         }
 
         // POST: api/Entities
@@ -85,7 +81,7 @@ namespace WebApplication.Controllers
 
         // DELETE: api/Entities/5
         [HttpDelete("{id}")]
-        public async Task<IActionResult> DeleteEntity(long id)
+        public async Task<IActionResult> DeleteEntity(Guid id)
         {
             var entity = await _context.Entities.FindAsync(id);
             if (entity == null)
@@ -96,10 +92,10 @@ namespace WebApplication.Controllers
             _context.Entities.Remove(entity);
             await _context.SaveChangesAsync();
 
-            return NoContent();
+            return Ok();
         }
 
-        private bool EntityExists(long id)
+        private bool EntityExists(Guid id)
         {
             return _context.Entities.Any(e => e.Id == id);
         }
