@@ -1,0 +1,11 @@
+<form [formGroup]="entityForm" (ngSubmit)="onSubmit()">
+  <div>
+    <label for="email">Name:</label>
+    <input formControlName="name">
+  </div>
+  <button type="submit">Add</button>
+</form>
+
+<div *ngFor="let entity of entities">
+  <span>{{entity.name}}</span> <button (click)="deleteEntity(entity)">Delete</button>
+</div>
